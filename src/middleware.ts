@@ -9,11 +9,19 @@ const isPublicRoute = createRouteMatcher([
   "terms-of-service",
 ]);
 
-export default clerkMiddleware(async (auth, request) => {
-  if (!isPublicRoute(request)) {
-    await auth.protect();
-  }
-});
+export default clerkMiddleware(
+  async (auth, request) => {
+    if (!isPublicRoute(request)) {
+      await auth.protect();
+    }
+  },
+  () => {
+    return {
+      publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY as string,
+      secretKey: process.env.NEXT_PUBLIC_CLERK_SECRET_KEY as string,
+    };
+  },
+);
 
 export const config = {
   matcher: [

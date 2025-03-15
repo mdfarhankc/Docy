@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import RichtextEditor from "./richtext-editor";
-import { draftToMarkdown } from "markdown-draft-js";
+import { draftToMarkdown, markdownToDraft } from "markdown-draft-js";
 import { createDocuments, updateDocument } from "../actions";
 import Loading from "@/components/loading";
 
@@ -73,6 +73,9 @@ const EditorBlockForm = ({ document, setIsEditing }: EditorBlockFormProps) => {
                 <RichtextEditor
                   onChange={(draft) => field.onChange(draftToMarkdown(draft))}
                   ref={field.ref}
+                  defaultContentState={
+                    field.value ? markdownToDraft(field.value) : undefined
+                  }
                 />
               </FormControl>
               <FormMessage />
